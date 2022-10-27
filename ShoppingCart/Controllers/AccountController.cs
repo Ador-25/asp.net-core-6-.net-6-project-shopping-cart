@@ -25,10 +25,11 @@ namespace ShoppingCart.Controllers
                         {
                                 AppUser newUser = new AppUser { UserName = user.UserName, Email = user.Email };
                                 IdentityResult result = await _userManager.CreateAsync(newUser, user.Password);
+                                 //await _userManager.AddToRoleAsync(newUser, "USER");
 
                                 if (result.Succeeded)
                                 {
-                                        return Redirect("/admin/products");
+                                        return Redirect("/home");
                                 }
 
                                 foreach (IdentityError error in result.Errors)
@@ -41,6 +42,8 @@ namespace ShoppingCart.Controllers
                         return View(user);
                 }
 
+
+
                 public IActionResult Login(string returnUrl) => View(new LoginViewModel { ReturnUrl = returnUrl });
 
                 [HttpPost]
@@ -52,7 +55,7 @@ namespace ShoppingCart.Controllers
 
                                 if (result.Succeeded)
                                 {
-                                        return Redirect(loginVM.ReturnUrl ?? "/");
+                                        return Redirect(loginVM.ReturnUrl ?? "/products");
                                 }
 
                                 ModelState.AddModelError("", "Invalid username or password");
