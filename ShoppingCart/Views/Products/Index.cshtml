@@ -12,15 +12,21 @@
                 <div class="col-4 "  >
                         <img src="/media/products/@item.Image" class="img-fluid" style="height:250px;width:250px"  alt=""  />
                         <h4>@item.Name</h4>
-                        <div>
-                                @Html.Raw(item.Description)
-                        </div>
                         <p>
-                                @item.Price.ToString("C2")
+                               BDT @item.Price
                         </p>
                         <p>
-                                <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id">Add to cart</a>
+                            <a asp-controller="Products" 
+                            class="btn btn-info"
+                            asp-action="ProductDetails" asp-route-id="@item.Id">
+                           Details
+                       </a>
+
+                       <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id">Add to cart</a>
                         </p>
+
+
+                       
                 </div>
         }
 

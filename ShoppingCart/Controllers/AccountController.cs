@@ -23,7 +23,9 @@ namespace ShoppingCart.Controllers
                 {
                         if (ModelState.IsValid)
                         {
-                                AppUser newUser = new AppUser { UserName = user.UserName, Email = user.Email };
+                                AppUser newUser = new AppUser { UserName = user.UserName, Email = user.Email ,
+                                    PhoneNumber=user.PhoneNumber,Address=user.Address
+                                };
                                 IdentityResult result = await _userManager.CreateAsync(newUser, user.Password);
                                  //await _userManager.AddToRoleAsync(newUser, "USER");
 

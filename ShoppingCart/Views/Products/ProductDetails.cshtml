@@ -1,0 +1,40 @@
+﻿@model ShoppingCart.Models.Product
+
+@{
+    ViewData["Title"] = "ProductDetails";
+}
+
+<h1>ProductDetails</h1>
+
+<div>
+    <h4>Product</h4>
+
+    <hr />
+    <img src="/media/products/@Model.Image" class="img-fluid" style="height:320px;width:320px"  alt=""  />
+
+    <hr/>
+    <dl class="row">
+
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+                       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+@Html.Raw(Model.Description.Replace("\r\n", "<br />"))
+<div>
+      <p>
+           <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id">Add to cart</a>
+     </p>
+</div>
