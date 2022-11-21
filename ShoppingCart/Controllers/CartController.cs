@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Infrastructure;
 using ShoppingCart.Models;
 using ShoppingCart.Models.ViewModels;
@@ -8,10 +9,14 @@ namespace ShoppingCart.Controllers
         public class CartController : Controller
         {
                 private readonly DataContext _context;
+                private static CartViewModel _cartViewModel;
+                UserManager<AppUser> _userManager;
 
-                public CartController(DataContext context)
+                public CartController(DataContext context, UserManager<AppUser> userManager)
                 {
                         _context = context;
+                        _userManager = userManager; 
+                        _cartViewModel = new CartViewModel();
                 }
 
                 public IActionResult Index()
@@ -23,18 +28,54 @@ namespace ShoppingCart.Controllers
                                 CartItems = cart,
                                 GrandTotal = cart.Sum(x => x.Quantity * x.Price)
                         };
+                        if (cartVM.GrandTotal > 0)
+                        {
 
+                        }
                         return View(cartVM);
                 }
+        public IActionResult IndexDhaka()
+        {
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
-                public async Task<IActionResult> Add(long id)
+            CartViewModel cartVM = new()
+            {
+                CartItems = cart,
+                GrandTotal = cart.Sum(x => x.Quantity * x.Price)
+            };
+            if (cartVM.GrandTotal > 0)
+            {
+                if (cartVM.DeliveryLocation == Location.Dhaka)
+                    cartVM.GrandTotal += 60;
+            }
+            return View(cartVM);
+        }
+        public IActionResult IndexOutsideDhaka()
+        {
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            CartViewModel cartVM = new()
+            {
+                CartItems = cart,
+                GrandTotal = cart.Sum(x => x.Quantity * x.Price)
+            };
+            if (cartVM.GrandTotal > 0)
+            {
+                if (cartVM.DeliveryLocation == Location.Dhaka)
+                    cartVM.GrandTotal += 130;
+            }
+            return View(cartVM);
+        }
+
+        public async Task<IActionResult> Add(long id,int s)
                 {
                         Product product = await _context.Products.FindAsync(id);
+                        
 
                         List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
                         CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
-
+           // cartItem.MySize = (size)s;  //ERROR HERE
                         if (cartItem == null)
                         {
                                 cart.Add(new CartItem(product));
@@ -106,5 +147,69 @@ namespace ShoppingCart.Controllers
 
                         return RedirectToAction("Index");
                 }
+        public IActionResult CheckOut(string id,int loc)
+        {
+            try
+            {
+                List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+                User appUser = _context.Users.First(x => x.UserName == id);
+                _cartViewModel.id = Guid.NewGuid();
+                _cartViewModel.UserEmail = appUser.Email;
+                _cartViewModel.UserPhone = appUser.PhoneNumber;
+                _cartViewModel.UserAddress = appUser.Address;
+                _cartViewModel.GrandTotal = cart.Sum(x => x.Quantity * x.Price);
+                _cartViewModel.GrandTotal += 60;
+                _cartViewModel.LocationIsDhaka = true;
+                var temp = HttpContext.Session.Get("");
+                _context.OrderCarts.Add(_cartViewModel);
+                _context.SaveChanges();
+
+                foreach (CartItem c in cart)
+                {
+                    c.OrderId = _cartViewModel.id;
+                    _context.CartItems.Add(c);
+                }
+                _context.SaveChanges();
+                return RedirectToAction("Clear");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+           
         }
+        public IActionResult CheckOutSide(string id, int loc)
+        {
+            try
+            {
+                List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+                User appUser = _context.Users.First(x => x.UserName == id);
+                _cartViewModel.id = Guid.NewGuid();
+                _cartViewModel.UserEmail = appUser.Email;
+                _cartViewModel.UserPhone = appUser.PhoneNumber;
+                _cartViewModel.UserAddress = appUser.Address;
+                _cartViewModel.GrandTotal = cart.Sum(x => x.Quantity * x.Price);
+                _cartViewModel.GrandTotal += 130;
+
+                _cartViewModel.LocationOutsideDhaka = true;
+                var temp = HttpContext.Session.Get("");
+                _context.OrderCarts.Add(_cartViewModel);
+                _context.SaveChanges();
+
+                foreach (CartItem c in cart)
+                {
+                    c.OrderId = _cartViewModel.id;
+                    _context.CartItems.Add(c);
+                }
+                _context.SaveChanges();
+                return RedirectToAction("Clear");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+    }
 }

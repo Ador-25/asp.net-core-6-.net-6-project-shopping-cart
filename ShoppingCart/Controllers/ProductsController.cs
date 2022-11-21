@@ -33,10 +33,30 @@ namespace ShoppingCart.Controllers
 
                         var productsByCategory = _context.Products.Where(p => p.CategoryId == category.Id);
                         ViewBag.TotalPages = (int)Math.Ceiling((decimal)productsByCategory.Count() / pageSize);
+            return View(await productsByCategory.OrderByDescending(p => p.Id).Skip((p - 1) * pageSize).Take(pageSize).ToListAsync());
 
-                        return View(await productsByCategory.OrderByDescending(p => p.Id).Skip((p - 1) * pageSize).Take(pageSize).ToListAsync());
-                }
-                public async Task<IActionResult> ProductDetails(long id)
+        }
+
+        public async Task<IActionResult> SearchIndex(string text)
+        {
+            int pageSize = 9;
+            ViewBag.PageNumber = 1;
+            ViewBag.PageRange = pageSize;
+            ViewBag.CategorySlug = "";
+
+
+            var products = from p in _context.Products
+                         select p;
+
+            if (!String.IsNullOrEmpty(text))
+            {
+                products= products.Where(s => s.Name!.Contains(text));
+            }
+
+            ViewBag.TotalPages = (int)Math.Ceiling((decimal)products.Count() / pageSize);
+            return View(await products.OrderByDescending(p => p.Id).Skip((1 - 1) * pageSize).Take(pageSize).ToListAsync());
+        }
+        public async Task<IActionResult> ProductDetails(long id)
                 {
                      var product = _context.Products.Find(id);
                     return View(product);

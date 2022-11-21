@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingCart.Infrastructure;
 
@@ -11,9 +12,10 @@ using ShoppingCart.Infrastructure;
 namespace ShoppingCart.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221119172733_locationMigration")]
+    partial class locationMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,14 +291,8 @@ namespace ShoppingCart.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<string>("AvailableSizes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("DeliveryCharge")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -353,22 +349,10 @@ namespace ShoppingCart.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DeliveryCharge")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DeliveryLocation")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("GrandTotal")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("LocationIsDhaka")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LocationOutsideDhaka")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("OrderCompleted")
+                    b.Property<bool>("InsideDhaka")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserAddress")

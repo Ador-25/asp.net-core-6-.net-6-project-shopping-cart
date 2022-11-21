@@ -4,10 +4,10 @@ namespace ShoppingCart.Models
 {
         public class User
         {
-                public string Id { get; set; }
 
-                [Required, MinLength(2, ErrorMessage = "Minimum length is 2")]
+        [Required, MinLength(2, ErrorMessage = "Minimum length is 2")]
                 [Display(Name = "Username")]
+                [Key]
                 public string UserName { get; set; }
                 [Required, EmailAddress]
                 public string Email { get; set; }

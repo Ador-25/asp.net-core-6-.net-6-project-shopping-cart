@@ -1,17 +1,13 @@
 ﻿@model IEnumerable<Product>
+
 @{
         ViewData["Title"] = "Products";
 }
 
-<h1>Our Products</h1>
-
-<hr/>
-<h4>
-    Search for products
-</h4>
+<h1>Products</h1>
  <form asp-controller="Products" class="container body-content" asp-action="SearchIndex" style="width:100%;padding:5x; marging:5px; padding-top:"4px"" >
     <div class="form-group row">
-        <p>
+     <p>
         <input type="text" name="text"  style="width:600px" />
         <input type="submit" value="Search" />
                 </div>

@@ -12,8 +12,8 @@ using ShoppingCart.Infrastructure;
 namespace ShoppingCart.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221116054226_newUser")]
-    partial class newUser
+    [Migration("20221117081838_tempdb")]
+    partial class tempdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,6 +225,45 @@ namespace ShoppingCart.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ShoppingCart.Models.CartItem", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ItemId"), 1L, 1);
+
+                    b.Property<Guid?>("CartViewModelid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MySize")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemId");
+
+                    b.HasIndex("CartViewModelid");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("ShoppingCart.Models.Category", b =>
                 {
                     b.Property<long>("Id")
@@ -308,6 +347,29 @@ namespace ShoppingCart.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ShoppingCart.Models.ViewModels.CartViewModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("OrderCarts");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -359,6 +421,13 @@ namespace ShoppingCart.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ShoppingCart.Models.CartItem", b =>
+                {
+                    b.HasOne("ShoppingCart.Models.ViewModels.CartViewModel", null)
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartViewModelid");
+                });
+
             modelBuilder.Entity("ShoppingCart.Models.Product", b =>
                 {
                     b.HasOne("ShoppingCart.Models.Category", "Category")
@@ -368,6 +437,11 @@ namespace ShoppingCart.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ShoppingCart.Models.ViewModels.CartViewModel", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }

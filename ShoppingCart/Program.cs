@@ -52,10 +52,19 @@ app.MapControllerRoute(
     name: "Areas",
     pattern: "{area:exists}/{controller=Products}/{action=Index}/{id?}");
 
+    app.MapControllerRoute(
+    name: "Areas",
+    pattern: "{area:exists}/{controller=CartViewModels}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "Areas",
+    pattern: "{area:exists}/{controller=Categories}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "products",
     pattern: "/products/{categorySlug?}",
     defaults: new { controller = "Products", action = "Index" });
+app.MapControllerRoute(
+    name: "products",
+    pattern: "{controller=Products}/{action=SearchIndex}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

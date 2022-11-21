@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Infrastructure;
 using ShoppingCart.Models;
 using ShoppingCart.Models.ViewModels;
 
@@ -9,11 +10,15 @@ namespace ShoppingCart.Controllers
         {
                 private UserManager<AppUser> _userManager;
                 private SignInManager<AppUser> _signInManager;
+                private readonly DataContext _context;
+            
 
-                public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, DataContext context)
                 {
                         _userManager = userManager;
                         _signInManager = signInManager;
+                _context = context;
+                        
                 }
 
                 public IActionResult Create() => View();
@@ -27,11 +32,13 @@ namespace ShoppingCart.Controllers
                                     PhoneNumber=user.PhoneNumber,Address=user.Address
                                 };
                                 IdentityResult result = await _userManager.CreateAsync(newUser, user.Password);
+                _context.Users.Add(user);
+                _context.SaveChanges();
                                  //await _userManager.AddToRoleAsync(newUser, "USER");
 
                                 if (result.Succeeded)
                                 {
-                                        return Redirect("/home");
+                                        return Redirect("/Account/Login");
                                 }
 
                                 foreach (IdentityError error in result.Errors)

@@ -14,42 +14,33 @@
                         <th>Product</th>
                         <th>Quantity</th>
                         <th></th>
-                        <th>Size</th>
                         <th>Price</th>
                         <th>Total</th>
                 </tr>
                 @foreach (var item in Model.CartItems)
                 {
-                    <form>
-                         <tr>
+                        <tr>
                                 <td>@item.ProductName</td>
                                 <td>@item.Quantity</td>
                                 <td>
-                                        <a class="btn btn-primary btn-sm" asp-action="Add" asp-route-id="@item.ProductId" asp-route-size="@item.MySize">+</a>
+                                        <a class="btn btn-primary btn-sm" asp-action="Add" asp-route-id="@item.ProductId" asp-route-s="@item.MySize">+</a>
                                         <a class="btn btn-info btn-sm" asp-action="Decrease" asp-route-id="@item.ProductId">-</a>
                                         <a class="btn btn-danger btn-sm" asp-action="Remove" asp-route-id="@item.ProductId">Remove</a>
                                 </td>
-                                <td > <select asp-for="@item.MySize"  asp-items="Html.GetEnumSelectList<size>()"></select></td>
-                               
-                                
+                                 <td > <select asp-for="@item.MySize"  asp-items="Html.GetEnumSelectList<size>()"></select></td>
                                 <td>@item.Price</td>
                                 <td>BDT @Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x => x.Quantity * x.Price)</td>
                         </tr>
-                    </form>
-                       
                 }
                 <tr>
                         <td class="text-right" colspan="4">Grand Total: BDT @Model.GrandTotal</td>
                 </tr>
                 <p>
                     Delivery Charge:
+                    
                     <p>
-                                Inside Dhaka: BDT 60
+                        INSIDE DHAKA: 60TK
                     </p>
-                     <p>
-                                Outside Dhaka: BDT 60.
-                    </p>
-                  
                 </p>
                
                 
@@ -58,8 +49,7 @@
                                 <a class="btn btn-danger" asp-action="Clear">Clear Cart</a>
                                                 @if (User.Identity?.IsAuthenticated ?? false)
                                                 {
-                                                     <a class="btn btn-primary"  asp-action="IndexDhaka" asp-route-id="@User.Identity.Name" >Delivery Inside Dhaka</a>
-                                                     <a class="btn btn-primary"  asp-action="IndexOutsideDhaka" asp-route-id="@User.Identity.Name" >Delivery Outside Dhaka</a>
+                                                     <a class="btn btn-primary"  asp-action="CheckOut" asp-route-id="@User.Identity.Name" >Confirm Order</a>
                                                 }
                                                 else
                                                 {

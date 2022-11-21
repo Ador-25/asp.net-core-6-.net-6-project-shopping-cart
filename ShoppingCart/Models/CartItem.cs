@@ -1,7 +1,11 @@
-﻿namespace ShoppingCart.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ShoppingCart.Models
 {
         public class CartItem
         {
+                [Key]
+                public long ItemId { get; set; }
                 public long ProductId { get; set; }
                 public string ProductName { get; set; }
                 public int Quantity { get; set; }
@@ -11,8 +15,11 @@
                         get { return Quantity * Price; }
                 }
                 public string Image { get; set; }
+                public size MySize { get; set; }
+                public Guid OrderId { get; set; }
 
-                public CartItem()
+
+        public CartItem()
                 {
                 }
 
@@ -25,5 +32,9 @@
                         Image = product.Image;
                 }
 
+        }
+        public enum size
+        {
+            XXL,XL,L,M,S
         }
 }

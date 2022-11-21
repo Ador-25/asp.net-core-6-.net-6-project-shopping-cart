@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingCart.Infrastructure;
 
@@ -11,9 +12,10 @@ using ShoppingCart.Infrastructure;
 namespace ShoppingCart.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221117082632_user")]
+    partial class user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,14 +291,8 @@ namespace ShoppingCart.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<string>("AvailableSizes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("DeliveryCharge")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -324,14 +320,10 @@ namespace ShoppingCart.Migrations
 
             modelBuilder.Entity("ShoppingCart.Models.User", b =>
                 {
-                    b.Property<string>("UserName")
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -342,7 +334,11 @@ namespace ShoppingCart.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
-                    b.HasKey("UserName");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Email");
 
                     b.ToTable("Users");
                 });
@@ -353,23 +349,8 @@ namespace ShoppingCart.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DeliveryCharge")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DeliveryLocation")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("GrandTotal")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("LocationIsDhaka")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LocationOutsideDhaka")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("OrderCompleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("UserAddress")
                         .HasColumnType("nvarchar(max)");
