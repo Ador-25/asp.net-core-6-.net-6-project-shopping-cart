@@ -6,7 +6,7 @@ using ShoppingCart.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
 {
-        options.UseSqlServer(builder.Configuration["ConnectionStrings:DbConnection"]);
+        options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 
 builder.Services.AddDistributedMemoryCache();
