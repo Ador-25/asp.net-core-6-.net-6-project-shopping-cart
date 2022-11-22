@@ -65,6 +65,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "products",
     pattern: "{controller=Products}/{action=SearchIndex}/{id?}");
+app.MapControllerRoute(
+    name: "cartviewmodels",
+    pattern: "{controller=CartViewModels}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
