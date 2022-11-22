@@ -33,5 +33,6 @@ namespace ShoppingCart.Models
                 public IFormFile ImageUpload { get; set; }
                 public string AvailableSizes { get; set; }
                 public string DeliveryCharge { get; set; } = "Inside Dhaka: BDT 60 ,  Outside Dhaka BDT 130.";
+        public sizes MySize { get; set; }
     }
 }

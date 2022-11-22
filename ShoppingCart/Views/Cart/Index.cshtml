@@ -29,7 +29,54 @@
                                         <a class="btn btn-info btn-sm" asp-action="Decrease" asp-route-id="@item.ProductId">-</a>
                                         <a class="btn btn-danger btn-sm" asp-action="Remove" asp-route-id="@item.ProductId">Remove</a>
                                 </td>
-                                <td > <select asp-for="@item.MySize"  asp-items="Html.GetEnumSelectList<size>()"></select></td>
+                                <td >
+                        @if (item.MySize == sizes.S)
+                        {
+                            
+                             <a  class="btn btn-primary btn-sm" asp-action="S" asp-route-id="@item.ProductId"  asp-action="S">S</a>
+                             <a  asp-action="M" asp-route-id="@item.ProductId" asp-action="M">M</a>
+                             <a  asp-action="S" asp-route-id="@item.ProductId" asp-action="L">L</a>
+                             <a  asp-action="M" asp-route-id="@item.ProductId" asp-action="XL">XL</a>
+                             <a  asp-action="S" asp-route-id="@item.ProductId" asp-action="XXL" >XXL</a>
+
+                        }
+                        else if(item.MySize == sizes.M)
+                        {
+                             <a  asp-route-id="@item.ProductId"  asp-action="S">S</a>
+                             <a class="btn btn-primary btn-sm"  asp-action="M" asp-route-id="@item.ProductId" >M</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="L">L</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="XL">XL</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="XXL" >XXL</a>
+                        }
+                        else if(item.MySize == sizes.L)
+                        {
+                             <a   asp-route-id="@item.ProductId"  asp-action="S">S</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="M">M</a>
+                             <a  class="btn btn-primary btn-sm"  asp-route-id="@item.ProductId" asp-action="L">L</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="XL">XL</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="XXL" >XXL</a>
+                        }
+                        else if(item.MySize == sizes.XL)
+                        {
+                             <a    asp-route-id="@item.ProductId"  asp-action="S">S</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="M">M</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="L">L</a>
+                             <a class="btn btn-primary btn-sm" asp-route-id="@item.ProductId" asp-action="XL">XL</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="XXL" >XXL</a>
+                        }
+                        else 
+                        {
+                             <a    asp-route-id="@item.ProductId"  asp-action="S">S</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="M">M</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="L">L</a>
+                             <a   asp-route-id="@item.ProductId" asp-action="XL">XL</a>
+                             <a class="btn btn-primary btn-sm" asp-route-id="@item.ProductId" asp-action="XXL" >XXL</a>
+                        }
+                       
+                                   
+
+
+                                </td>
                                
                                 
                                 <td>@item.Price</td>

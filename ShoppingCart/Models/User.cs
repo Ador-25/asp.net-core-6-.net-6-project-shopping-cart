@@ -19,14 +19,5 @@ namespace ShoppingCart.Models
 
 
     }
-
-
-        public enum sizes
-        {
-            S,
-            M,
-            L,
-            XL
-        }
     
 }

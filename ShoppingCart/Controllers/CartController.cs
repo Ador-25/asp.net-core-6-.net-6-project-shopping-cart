@@ -121,6 +121,8 @@ namespace ShoppingCart.Controllers
                         return RedirectToAction("Index");
                 }
 
+                
+
                 public async Task<IActionResult> Remove(long id)
                 {
                         List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
@@ -210,6 +212,169 @@ namespace ShoppingCart.Controllers
             }
 
         }
+        /*
+         
+        public async Task<IActionResult> Add(long id,int s)
+                {
+                        Product product = await _context.Products.FindAsync(id);
+                        
+
+                        List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+                        CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+           // cartItem.MySize = (size)s;  //ERROR HERE
+                        if (cartItem == null)
+                        {
+                                cart.Add(new CartItem(product));
+                        }
+                        else
+                        {
+                                cartItem.Quantity += 1;
+                        }
+
+                        HttpContext.Session.SetJson("Cart", cart);
+
+                        TempData["Success"] = "The product has been added!";
+
+                        return Redirect(Request.Headers["Referer"].ToString());
+                }
+         
+         */
+        public async Task<IActionResult> S(long id)
+
+        {
+            Product product = await _context.Products.FindAsync(id);
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+
+            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+
+            if (cartItem == null)
+            {
+                product.MySize = sizes.S;
+                CartItem c = new CartItem(product);
+                c.MySize = sizes.S;
+                cart.Add(c);
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+            else
+            {
+                cartItem.MySize= sizes.S;
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+
+            TempData["Success"] = "Size Changed to Small!";
+
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> M(long id)
+
+        {
+            Product product = await _context.Products.FindAsync(id);
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+
+            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+
+            if (cartItem == null)
+            {
+                product.MySize = sizes.M;
+                CartItem c = new CartItem(product);
+                c.MySize = sizes.M;
+                cart.Add(c);
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+            else
+            {
+                cartItem.MySize = sizes.M;
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+
+            TempData["Success"] = "Size Changed to M!";
+
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> L(long id)
+
+        {
+            Product product = await _context.Products.FindAsync(id);
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+
+            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+
+            if (cartItem == null)
+            {
+                product.MySize = sizes.L;
+                CartItem c = new CartItem(product);
+                c.MySize = sizes.L;
+                cart.Add(c);
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+            else
+            {
+                cartItem.MySize = sizes.L;
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+
+            TempData["Success"] = "Size Changed to L!";
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult>XL(long id)
+
+        {
+            Product product = await _context.Products.FindAsync(id);
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+
+            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+
+            if (cartItem == null)
+            {
+                product.MySize = sizes.XL;
+                CartItem c = new CartItem(product);
+                c.MySize = sizes.XL;
+                cart.Add(c);
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+            else
+            {
+                cartItem.MySize = sizes.XL;
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+
+            TempData["Success"] = "Size Changed to XL!";
+
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> XXL(long id)
+
+        {
+            Product product = await _context.Products.FindAsync(id);
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+
+            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+
+            if (cartItem == null)
+            {
+                product.MySize = sizes.XXL;
+                CartItem c = new CartItem(product);
+                c.MySize = sizes.XXL;
+                cart.Add(c);
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+            else
+            {
+                cartItem.MySize = sizes.XXL;
+                HttpContext.Session.SetJson("Cart", cart);
+            }
+
+            TempData["Success"] = "Size Changed to XXL!";
+
+            return RedirectToAction("Index");
+        }
 
     }
+
 }
+
+
+//product constructor if error

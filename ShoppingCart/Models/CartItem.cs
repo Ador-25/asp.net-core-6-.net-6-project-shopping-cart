@@ -15,7 +15,7 @@ namespace ShoppingCart.Models
                         get { return Quantity * Price; }
                 }
                 public string Image { get; set; }
-                public size MySize { get; set; }
+                public sizes MySize { get; set; }
                 public Guid OrderId { get; set; }
 
 
@@ -30,10 +30,11 @@ namespace ShoppingCart.Models
                         Price = product.Price;
                         Quantity = 1;
                         Image = product.Image;
+                        MySize = product.MySize;
                 }
 
         }
-        public enum size
+        public enum sizes
         {
             XXL,XL,L,M,S
         }
